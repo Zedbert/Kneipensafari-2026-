@@ -308,9 +308,23 @@ stats[key] +
 
 document.getElementById("winner").innerHTML = `
 <div class="card">
+
 <h2>🏆 Jungle King 2026</h2>
-<p><strong>${out.name || "Safari-Legende"}</strong></p>
-<p>Alle 10 Kneipen erfolgreich besucht!</p>
+
+<p>
+<strong>${out.name || "Safari-Legende"}</strong>
+</p>
+
+<p>
+Alle 10 Kneipen erfolgreich besucht!
+</p>
+
+<h3>📊 Getränkestatistik</h3>
+
+<ul>
+${statHTML}
+</ul>
+
 </div>
 `;
 
