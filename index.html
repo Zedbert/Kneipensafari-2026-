@@ -188,10 +188,30 @@ ${(data["done"+i]) ? "🍺 Erledigt" : "Stempel holen"}
 </button>
 
 <p>🍹 Getränk</p>
-<input
-id="drink${i}"
-value="${data["drink"+i] || ""}"
-oninput="saveAll()">
+
+<select id="drink${i}" onchange="saveAll()">
+
+<option value="">Bitte wählen</option>
+
+<option value="Bier">🍺 Bier</option>
+
+<option value="Radler">🍋 Radler</option>
+
+<option value="Weizen">🍺 Weizen</option>
+
+<option value="Cocktail">🍹 Cocktail</option>
+
+<option value="Shot">🥃 Shot</option>
+
+<option value="Wein">🍷 Wein</option>
+
+<option value="Longdrink">🥃 Longdrink</option>
+
+<option value="Alkoholfrei">🚰 Alkoholfrei</option>
+
+<option value="Sonstiges">✍️ Sonstiges</option>
+
+</select>
 
 <p>📝 Notiz</p>
 <textarea
