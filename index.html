@@ -294,7 +294,7 @@ stats[drink] =
 
 let topDrink = "";
 let topCount = 0;
-
+  
 Object.keys(stats).forEach(key => {
 
 if(stats[key] > topCount){
@@ -314,6 +314,8 @@ if(topDrink === "Shot") jungleTitle = "🥃 Shot Sheriff";
 if(topDrink === "Wein") jungleTitle = "🍷 Weinbaron";
 if(topDrink === "Longdrink") jungleTitle = "🥤 Longdrink-Lord";
 if(topDrink === "Alkoholfrei") jungleTitle = "🚰 Hydration Hero";  
+
+let statHTML = "";  
 
 Object.keys(stats).forEach(key=>{
 
