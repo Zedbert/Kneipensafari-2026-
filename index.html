@@ -56,7 +56,7 @@ header{
   font-size:42px;
 }
 
-input,textarea{
+input,textarea,select{
   width:100%;
   box-sizing:border-box;
   padding:10px;
@@ -274,7 +274,66 @@ doneCount + " von 10 geschafft";
 document.getElementById("fill").style.width =
 (doneCount * 10) + "%";
 
-if(doneCount === 10){
+if(doneCount===10){
+
+let stats = {};
+
+pubs.forEach((p,i)=>{
+
+let drink =
+document.getElementById("drink"+i).value;
+
+if(drink){
+
+stats[drink] =
+(stats[drink] || 0) + 1;
+
+}
+
+});
+
+let statHTML = "";
+
+Object.keys(stats).forEach(key=>{
+
+statHTML +=
+"<li>" +
+key +
+": " +
+stats[key] +
+"</li>";
+
+});
+
+document.getElementById("winner").innerHTML = `
+<div class="card">
+
+<h2>🏆 Jungle King 2026</h2>
+
+<p>
+<strong>
+${out.name || "Safari-Legende"}
+</strong>
+</p>
+
+<p>
+10 von 10 Kneipen geschafft!
+</p>
+
+<h3>📊 Getränkestatistik</h3>
+
+<ul>
+${statHTML}
+</ul>
+
+</div>
+`;
+
+}else{
+
+document.getElementById("winner").innerHTML = "";
+
+}
 
 document.getElementById("winner").innerHTML = `
 <div class="card">
