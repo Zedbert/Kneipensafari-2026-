@@ -292,7 +292,28 @@ stats[drink] =
 
 });
 
-let statHTML = "";
+let topDrink = "";
+let topCount = 0;
+
+Object.keys(stats).forEach(key => {
+
+if(stats[key] > topCount){
+topCount = stats[key];
+topDrink = key;
+}
+
+});
+
+let jungleTitle = "🏆 Jungle King";
+
+if(topDrink === "Bier") jungleTitle = "🍺 Bierkönig";
+if(topDrink === "Radler") jungleTitle = "🍋 Radler-Ranger";
+if(topDrink === "Weizen") jungleTitle = "🍺 Weizen-Warrior";
+if(topDrink === "Cocktail") jungleTitle = "🍹 Cocktail Commander";
+if(topDrink === "Shot") jungleTitle = "🥃 Shot Sheriff";
+if(topDrink === "Wein") jungleTitle = "🍷 Weinbaron";
+if(topDrink === "Longdrink") jungleTitle = "🥤 Longdrink-Lord";
+if(topDrink === "Alkoholfrei") jungleTitle = "🚰 Hydration Hero";  
 
 Object.keys(stats).forEach(key=>{
 
@@ -332,11 +353,33 @@ document.getElementById("winner").innerHTML = `
 Alle 10 Kneipen erfolgreich besucht!
 </p>
 
+<h3>${jungleTitle}</h3>
+
 <h3>📊 Getränkestatistik</h3>
 
 <ul style="list-style:none;padding-left:0;">
 ${statHTML}
 </ul>
+
+<hr>
+
+<div style="text-align:center;padding:10px;">
+
+<h2>🌴 WELCOME TO THE JUNGLE 🌴</h2>
+
+<p>
+<strong>${out.name || "Safari-Legende"}</strong>
+</p>
+
+<p>
+10 von 10 Stationen geschafft
+</p>
+
+<p>
+Kneipensafari 2026
+</p>
+
+</div>
 
 </div>
 `;
