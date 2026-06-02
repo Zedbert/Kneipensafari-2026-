@@ -296,10 +296,23 @@ let statHTML = "";
 
 Object.keys(stats).forEach(key=>{
 
+let icon = "🍻";
+
+if(key === "Bier") icon = "🍺";
+if(key === "Radler") icon = "🍋";
+if(key === "Weizen") icon = "🍺";
+if(key === "Cocktail") icon = "🍹";
+if(key === "Shot") icon = "🥃";
+if(key === "Wein") icon = "🍷";
+if(key === "Longdrink") icon = "🥤";
+if(key === "Alkoholfrei") icon = "🚰";
+
 statHTML +=
-"<li>" +
+"<li style='padding:6px 0;font-size:18px;'>" +
+icon +
+" <strong>" +
 key +
-": " +
+"</strong>: " +
 stats[key] +
 "</li>";
 
@@ -321,7 +334,9 @@ Alle 10 Kneipen erfolgreich besucht!
 
 <h3>📊 Getränkestatistik</h3>
 
-<p>${JSON.stringify(stats)}</p>
+<ul style="list-style:none;padding-left:0;">
+${statHTML}
+</ul>
 
 </div>
 `;
