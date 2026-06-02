@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kneipensafari 26 – Welcome to the Jungle</title>
+
+<style>
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,sans-serif;
+  background:#1f2326;
+  color:#f4efe3;
+}
+
+header{
+  background:
+  linear-gradient(
+    180deg,
+    #0f1715,
+    #18201d
+  );
+
+  padding:32px 24px;
+
+  text-align:center;
+
+  border-bottom:
+    2px solid rgba(255,255,255,.08);
+}
+
+.wrap{
+  max-width:900px;
+  margin:auto;
+  padding:16px;
+}
+
+.card{
+  background:#f4efe3;
+  color:#222;
+  border-radius:24px;
+  padding:20px;
+  margin:18px 0;
+
+  border:3px solid #d8cfba;
+
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.25),
+    inset 0 0 0 1px rgba(255,255,255,.4);
+
+  transition:all .25s ease;
+}
+
+
+.logo{
+  font-size:42px;
+}
+
+input,textarea{
+  width:100%;
+  box-sizing:border-box;
+  padding:10px;
+  border-radius:10px;
+  border:1px solid #bbb;
+}
+
+textarea{
+  min-height:70px;
+}
+
+.btn{
+  border:none;
+  border-radius:999px;
+  padding:10px 16px;
+  font-weight:bold;
+}
+
+.todo{
+  background:#ddd;
+}
+
+.done{
+  background:#2f8f46;
+  color:white;
+
+  font-size:18px;
+
+  box-shadow:
+    0 6px 15px rgba(47,143,70,.4);
+}
+
+.progress{
+  height:28px;
+  background:#2b2b2b;
+  border-radius:999px;
+  overflow:hidden;
+
+  border:2px solid #555;
+
+  box-shadow:
+    inset 0 2px 8px rgba(0,0,0,.5);
+}
+
+.fill{
+  height:100%;
+  width:0;
+
+  background:
+  linear-gradient(
+    90deg,
+    #5d9c39,
+    #8fd14f
+  );
+
+  transition:width .5s ease;
+}
+
+#winner{
+  margin-top:20px;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🍻 Kneipensafari 26</h1>
+<div>Welcome to the Jungle 🌴</div>
+</header>
+
+<div class="wrap">
+
+<label>👤 Teilnehmer</label>
+<input id="name" placeholder="Dein Name">
+
+<p>
+<strong id="count">0 von 10 geschafft</strong>
+</p>
+
+<div class="progress">
+<div class="fill" id="fill"></div>
+</div>
+
+<div id="cards"></div>
+
+<div id="winner"></div>
+
+</div>
+
+<script>
+
+const pubs = [
+["🌴☕","Café Karibik Bar"],
+["🅒🅞🅒🅞","CoCoNo"],
+["🏰","Bastion Marie"],
+["🍇","Traubenkeller"],
+["🚪","Alte Torwache"],
+["🌞","Sonnenschein"],
+["💨","Amos"],
+["🐰🐮","Housnkuh"],
+["🫐☘️","Blueberry Hills Pub"],
+["😴☕","Kitsch"]
+];
+
+const data = JSON.parse(localStorage.getItem("jungle26") || "{}");
+
+document.getElementById("name").value = data.name || "";
+
+const cards = document.getElementById("cards");
+
+pubs.forEach((p,i)=>{
+
+cards.innerHTML += `
+<div class="card">
+
+<div class="logo">${p[0]}</div>
+
+<h3>${p[1]}</h3>
+
+<button
+id="b${i}"
+class="btn ${(data["done"+i]) ? "done" : "todo"}"
+data-done="${(data["done"+i]) ? 1 : 0}"
+onclick="togglePub(${i})">
+
+${(data["done"+i]) ? "🍺 Erledigt" : "Stempel holen"}
+
+</button>
+
+<p>🍹 Getränk</p>
+<input
+id="drink${i}"
+value="${data["drink"+i] || ""}"
+oninput="saveAll()">
+
+<p>📝 Notiz</p>
+<textarea
+id="note${i}"
+oninput="saveAll()">${data["note"+i] || ""}</textarea>
+
+</div>
+`;
+
+});
+
+function togglePub(i){
+
+let b = document.getElementById("b"+i);
+
+let done = b.dataset.done === "1";
+
+b.dataset.done = done ? "0" : "1";
+
+b.className = "btn " + (done ? "todo" : "done");
+
+b.textContent = done ? "Stempel holen" : "🍺 Erledigt";
+
+saveAll();
+}
+
+function saveAll(){
+
+let out = {
+name: document.getElementById("name").value
+};
+
+let doneCount = 0;
+
+pubs.forEach((p,i)=>{
+
+let done =
+document.getElementById("b"+i).dataset.done === "1";
+
+out["done"+i] = done;
+
+out["drink"+i] =
+document.getElementById("drink"+i).value;
+
+out["note"+i] =
+document.getElementById("note"+i).value;
+
+if(done) doneCount++;
+
+});
+
+localStorage.setItem(
+"jungle26",
+JSON.stringify(out)
+);
+
+document.getElementById("count").textContent =
+doneCount + " von 10 geschafft";
+
+document.getElementById("fill").style.width =
+(doneCount * 10) + "%";
+
+if(doneCount === 10){
+
+document.getElementById("winner").innerHTML = `
+<div class="card">
+<h2>🏆 Jungle King 2026</h2>
+<p><strong>${out.name || "Safari-Legende"}</strong></p>
+<p>Alle 10 Kneipen erfolgreich besucht!</p>
+</div>
+`;
+
+}else{
+
+document.getElementById("winner").innerHTML = "";
+
+}
+
+}
+
+document
+.getElementById("name")
+.addEventListener("input", saveAll);
+
+saveAll();
+
+</script>
+
+</body>
+</html>
